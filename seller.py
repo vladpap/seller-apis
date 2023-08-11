@@ -137,7 +137,7 @@ def update_stocks(stocks: list, client_id, seller_token):
             "details" (list): Дополнительная информация об ошибке.
             "message" (str): Описание ошибки.
     """
-    
+
     url = "https://api-seller.ozon.ru/v1/product/import/stocks"
     headers = {
         "Client-Id": client_id,
@@ -269,16 +269,17 @@ def price_conversion(price: str) -> str:
 def divide(lst: list, n: int):
     """Разделить список lst на части по n элементов
 
+    Пример: 
+    >>> print(divide(range(1, 16), 6))
+    [[1, 2, 3, 4, 5, 6], [7, 8, 9, 10, 11, 12], [13, 14, 15]]
+
     Args:
         lst (list): Список элементов
         n (int): Количество элементов в массиве
 
     Returns:
         массив из массива по n элементов
-
-    Пример:
-    ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], 6) ->
-    [[1, 2, 3, 4, 5, 6], [7, 8, 9, 10, 11, 12], [13, 14, 15]]"""
+    """
 
     for i in range(0, len(lst), n):
         yield lst[i : i + n]
