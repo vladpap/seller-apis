@@ -27,7 +27,7 @@ def get_product_list(last_id, client_id, seller_token):
         seller_token (str): API-ключ
 
     Returns:
-        Словарь "items": массив словарей:
+        Словарь "items": список из словарей:
                                 "product_id": идентификатор продукта
                                 "offer_id": артикул товара
                 "total": колличество товаров
@@ -61,7 +61,7 @@ def get_offer_ids(client_id, seller_token):
         seller_token (str): API-ключ
 
     Returns:
-        Массив артикулов
+        Список артикулов
     """
 
     last_id = ""
@@ -85,7 +85,7 @@ def update_price(prices: list, client_id, seller_token):
     Изменить цены продавца на сайте Озон товаров часов
 
     Args:
-        prices: (list): Массив словаря:
+        prices: (list): Список из словарей:
                         "auto_action_enabled": "UNKNOWN"
                         "currency_code": Валюта ("RUB")
                         "offer_id": Артикул (из словаря watch_remnants)
@@ -94,11 +94,11 @@ def update_price(prices: list, client_id, seller_token):
         client_id (str): Идентификатор клиента
         seller_token (str): API-ключ
 
-    Returns: Массив словаря:
+    Returns: Список из словарей:
         "product_id": Идентификатор товара (1386)
         "offer_id": Артикул товара ("PH8865")
         "updated": Произошло ли изменение (true),
-        "errors": массив словаря ошибок, если есть
+        "errors": список из словарей ошибок, если есть
             "code" (int): Код ошибки
             "details" (list): Дополнительная информация об ошибке.
             "message" (str): Описание ошибки.
@@ -122,17 +122,17 @@ def update_stocks(stocks: list, client_id, seller_token):
     продавца на сайте Озон
 
     Args:
-        stocks: (list): Массив словаря:
+        stocks: (list): Список из словарей:
                         "offer_id": Артикул
                         "stock": Колличиство
         client_id (str): Идентификатор клиента
         seller_token (str): API-ключ
 
-    Returns: Массив словаря:
+    Returns: Список из словарей:
         "product_id": Идентификатор товара (1386)
         "offer_id": Артикул товара ("PH8865")
         "updated": Произошло ли изменение (true),
-        "errors": массив словаря ошибок, если есть
+        "errors": список из словарей ошибок, если есть
             "code" (int): Код ошибки
             "details" (list): Дополнительная информация об ошибке.
             "message" (str): Описание ошибки.
@@ -157,7 +157,7 @@ def download_stock():
     и создает список остатков часов.
     
     Returns:
-        Массив словарей:
+        Список словарей:
             'Код': Код товара (68122), 
             'Наименование товара': Наименование ('BA-110-4A1'), 
             'Изображение': ('Показать'), 
@@ -186,19 +186,19 @@ def download_stock():
 
 
 def create_stocks(watch_remnants, offer_ids):
-    """ Создает массив склада
+    """ Создает Список склада
 
-    Создается массив артикла и колличеста из массива артикулов и остатков часв
+    Создается Список артикла и колличеста из списка артикулов и остатков часв
 
     Если в остатках часов количество ">10" то заноситься количество 100
     Если остатки равны "1" или артикла нет в остатках заоситься количество 0
 
     Args:
         watch_remnants (list): список остатков часов
-        offer_ids (list): Массив артикулов
+        offer_ids (list): Список артикулов
 
     Returns:
-        Массив словаря:
+        Список из словарей:
             "offer_id": Артикул
             "stock": Колличиство
     """
@@ -230,15 +230,15 @@ def create_prices(watch_remnants, offer_ids):
 
     Args:
         watch_remnants (list): Список часов
-        offer_ids (list): Массив артикулов
+        offer_ids (list): Список артикулов
 
     Returns:
-        Массив словаря:
-        "auto_action_enabled": "UNKNOWN"
-        "currency_code": Валюта ("RUB")
-        "offer_id": Артикул (из словаря watch_remnants)
-        "old_price": Старая цена ("0")
-        "price": Цена (из словаря watch_remnants)
+        Список словаря:
+            "auto_action_enabled": "UNKNOWN"
+            "currency_code": Валюта ("RUB")
+            "offer_id": Артикул (из словаря watch_remnants)
+            "old_price": Старая цена ("0")
+            "price": Цена (из словаря watch_remnants)
     """
 
     prices = []
@@ -275,10 +275,10 @@ def divide(lst: list, n: int):
 
     Args:
         lst (list): Список элементов
-        n (int): Количество элементов в массиве
+        n (int): Количество элементов в списке
 
     Returns:
-        массив из массива по n элементов
+        Список из списка по n элементов
     """
 
     for i in range(0, len(lst), n):

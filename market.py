@@ -26,7 +26,17 @@ def get_product_list(page, campaign_id, access_token):
         access_token (str): API-ключ
 
     Returns:
-        Массив словарей с карточками товаров
+        словарь:
+            "paging": (ScrollingPagerDTO) - Информация о страницах результатов.
+                                            Ссылка на следующую страницу.
+            "offerMappingEntries": 
+                (OfferMappingEntryDTO[]) - Информация о товарах в каталоге.
+                    name: (str) - Наименование
+                    shopSku: (str) - Ваш SKU
+                    category: (str) - Категория, к которой магазин относит свой товар
+
+                    .... 
+                    https://yandex.ru/dev/market/partner-api/doc/ru/reference/offer-mappings/getOfferMappingEntries#mappingsofferdto
 
     """
 
@@ -125,7 +135,7 @@ def get_offer_ids(campaign_id, market_token):
         market_token (str): API-ключ
 
     Returns:
-        Массив артикулов
+        Список артикулов
     """
     page = ""
     product_list = []
@@ -142,20 +152,20 @@ def get_offer_ids(campaign_id, market_token):
 
 
 def create_stocks(watch_remnants, offer_ids, warehouse_id):
-    """ Создает массив склада
+    """ Создает список склада
 
-    Создается массив артикла и колличеста из массива артикулов и остатков часв
+    Создается список артикла и колличеста из списка артикулов и остатков часв
 
     Если в остатках часов количество ">10" то заноситься количество 100
     Если остатки равны "1" или артикла нет в остатках заоситься количество 0
 
     Args:
         watch_remnants (list): список остатков часов
-        offer_ids (list): Массив артикулов
+        offer_ids (list): Список артикулов
         warehouse_id ():
 
     Returns:
-        Массив словаря:
+        Список из словарей:
             "sku": (str),Ваш SKU (Артикул) товара,
             "warehouseId": (int) - Идентификатор склада,
             "items": [
@@ -214,15 +224,15 @@ def create_prices(watch_remnants, offer_ids):
 
     Args:
         watch_remnants (list): Список часов
-        offer_ids (list): Массив артикулов
+        offer_ids (list): Список артикулов
 
     Returns:
-        Массив словаря:
-        "auto_action_enabled": "UNKNOWN"
-        "currency_code": Валюта ("RUB")
-        "offer_id": Артикул (из словаря watch_remnants)
-        "old_price": Старая цена ("0")
-        "price": Цена (из словаря watch_remnants)
+        Список словаря:
+            "auto_action_enabled": "UNKNOWN"
+            "currency_code": Валюта ("RUB")
+            "offer_id": Артикул (из словаря watch_remnants)
+            "old_price": Старая цена ("0")
+            "price": Цена (из словаря watch_remnants)
     """
 
     prices = []
@@ -245,6 +255,27 @@ def create_prices(watch_remnants, offer_ids):
 
 
 async def upload_prices(watch_remnants, campaign_id, market_token):
+    """
+    Обновляет цены товаров Яндекс маркета
+
+    Получает артикулы товаров Яндекс маркета, 
+    устанавливает цены и 
+    обновляет цены товаров на  Яндекс маркете
+
+    Args:
+        watch_remnants (): Список часов casio
+        campaign_id (str): Идентификатор кампании и идентификатор магазина
+        market_token (str): API-ключ
+
+    Returns:
+        Список из словарей:
+            "auto_action_enabled": "UNKNOWN"
+            "currency_code": Валюта ("RUB")
+            "offer_id": Артикул (из словаря watch_remnants)
+            "old_price": Старая цена ("0")
+            "price": Цена (из словаря watch_remnants)
+    """
+
     offer_ids = get_offer_ids(campaign_id, market_token)
     prices = create_prices(watch_remnants, offer_ids)
     for some_prices in list(divide(prices, 500)):
