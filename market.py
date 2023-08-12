@@ -154,7 +154,7 @@ def get_offer_ids(campaign_id, market_token):
 def create_stocks(watch_remnants, offer_ids, warehouse_id):
     """ Создает список склада
 
-    Создается список артикла и колличеста из списка артикулов и остатков часв
+    Создается список артикла и колличества из списка артикулов и остатков часв
 
     Если в остатках часов количество ">10" то заноситься количество 100
     Если остатки равны "1" или артикла нет в остатках заоситься количество 0
@@ -162,7 +162,7 @@ def create_stocks(watch_remnants, offer_ids, warehouse_id):
     Args:
         watch_remnants (list): список остатков часов
         offer_ids (list): Список артикулов
-        warehouse_id ():
+        warehouse_id (): Идентификатор склада.
 
     Returns:
         Список из словарей:
@@ -284,6 +284,32 @@ async def upload_prices(watch_remnants, campaign_id, market_token):
 
 
 async def upload_stocks(watch_remnants, campaign_id, market_token, warehouse_id):
+    """
+    Обновляет количество товаров Яндекс маркета
+
+    Получает артикулы товаров Яндекс маркета, 
+    формирует склад товаров
+    обновляет количество товаров на  Яндекс маркете
+
+    Args:
+        watch_remnants (): Список часов casio
+        campaign_id (str): Идентификатор кампании и идентификатор магазина
+        market_token (str): API-ключ
+        warehouse_id (): Идентификатор склада.
+
+    Returns:
+        Списки товаров: 
+            Список товаров которые есть в наличии
+            Полный список товаров
+        Словарь товаров:
+            "sku": (str),Ваш SKU (Артикул) товара,
+            "warehouseId": (int) - Идентификатор склада,
+            "items": [
+                "count": (int) - Количество доступного товара,
+                "type": "FIT",
+                "updatedAt": (str) - Дата и время обновления
+    """
+
     offer_ids = get_offer_ids(campaign_id, market_token)
     stocks = create_stocks(watch_remnants, offer_ids, warehouse_id)
     for some_stock in list(divide(stocks, 2000)):
